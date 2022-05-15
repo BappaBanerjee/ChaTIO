@@ -4,6 +4,9 @@ const server = require('http').createServer(app);
 const {Server} = require('socket.io');
 const io = new Server(server);
 
+server.listen(process.env.PORT || 3000);
+console.log("server running")
+
 const users = [];
 
 app.get('/', function(req, res){
@@ -41,7 +44,3 @@ io.on('connection', (socket) => {
     })
 
 });
-
-server.listen(3000 , () => {
-    console.log('Server is running on 3000');
-})
