@@ -3,35 +3,44 @@
   <head>
     <title>Socket.IO chat</title>
     <style>
-      body { margin: 0; padding-bottom: 3rem; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        body { margin: 0; padding-bottom: 3rem; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
 
-      #form { background: rgba(0, 0, 0, 0.15); padding: 0.25rem; position: absolute; bottom: 0; left: 0; right: 0; display: flex; height: 3rem; box-sizing: border-box; backdrop-filter: blur(10px); }
-      #input { border: none; padding: 0 1rem; flex-grow: 1; border-radius: 2rem; margin: 0.25rem; }
-      #input:focus { outline: none; }
-      #form > button { background: #333; border: none; padding: 0 1rem; margin: 0.25rem; border-radius: 3px; outline: none; color: #fff; }
+        #form { background: rgba(0, 0, 0, 0.15); padding: 0.25rem; position: fixed; bottom: 0; left: 0;  display: flex; height: 3rem; box-sizing: border-box; backdrop-filter: blur(10px); width: 100%;}
+        #input { border: none; padding: 0 1rem; flex-grow: 1; border-radius: 2rem; margin: 0.25rem; }
+        #input:focus { outline: none; }
+        #form > button { background: #333; border: none; padding: 0 1rem; margin: 0.25rem; border-radius: 3px; outline: none; color: #fff; }
 
-      #messages { list-style-type: none; margin: 0; padding: 0; }
-      #messages > li { padding: 0.5rem 1rem; }
-      #messages > li:nth-child(odd) { background: #efefef; }
+        #messages { list-style-type: none; margin: 0; padding: 0; }
+        #messages > li { padding: 0.5rem 1rem; }
+        #messages > li:nth-child(odd) { background: #efefef; }
 
-      #messageWrapper{
+        #messageWrapper{
             position: relative;
-            height: 670px;
+            
             width: 50%;
         }
-      #usernameWrapper{
-          margin:auto;
-          border: 1px solid black;
-          background-color: azure;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          height: 200px;
-          margin-top: 30px;
-      }
-      #interfaceContainer{
-          display: none;
-      }
+        #usernameWrapper{
+            margin:auto;
+            border: 1px solid black;
+            background-color: azure;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            margin-top: 30px;
+        }
+        #interfaceContainer{
+            display: none;
+        }
+        .usernames {
+        width: 50%;
+        position: fixed;
+        left: 50%;
+        padding: 10px 30px;
+        font-weight: 500;
+        text-transform: uppercase;
+        }
+
     </style>
   </head>
   <body>
@@ -92,20 +101,14 @@
     });
 
     socket.on('updateUsers', function(data){
-        
-        var child = users.lastElementChild; 
-        while (child) {
-            e.removeChild(child);
-            child = users.lastElementChild;
-        }
-
+        console.log(data);
+        users.innerHTML = "";     
+        let html = "";
         for(i=0;i<data.length;i++){
-            let item = document.createElement('li');
-            item.textContent = data[i];
-            users.appendChild(item);
-            // html += data[i] + "<br>";
+            
+            html += data[i] + "<br>";
         }
-        // users.innerHTML+= html;
+        users.innerHTML+= html;
     })
 
     socket.on('chat message', function(data) {
